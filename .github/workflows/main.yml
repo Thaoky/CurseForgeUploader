@@ -2,19 +2,6 @@ name: Curseforge Release
 
 on:
   workflow_call:
-    inputs:
-      zip-file-path:
-        required: true
-        type: string
-      addon-display-name:
-        required: true
-        type: string
-      change-log:
-        required: true
-        type: string
-      curse-project-id:
-        required: true
-        type: string
     secrets:
       envPAT:
         required: true
@@ -30,10 +17,28 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: curseforge-upload-params
+      - shell: bash
+        run: |
+          # Read the content of the artifact file
+          ARTIFACT_CONTENT=$(cat curseforge-upload-params.txt)
+          
+          # Split the content into an array based on the pipe character
+          IFS='|' read -ra VARIABLES <<< "$ARTIFACT_CONTENT"
+
+          ZIP_FILE_NAME="${VARIABLES[0]}"
+          DISPLAY_NAME="${VARIABLES[1]}"
+          CURSEFORGE_PROJECT_ID="${VARIABLES[2]}"
+          CHANGELOG="See changelog.txt"
+
 
       - name: Print Parameters
         run: |
-          echo "ZIP_FILE_NAME: ${{ inputs.zip-file-path }}"
-          echo "DISPLAY_NAME: ${{ inputs.addon-display-name }}"
-          echo "CHANGELOG: ${{ inputs.change-log }}"
-          echo "CURSEFORGE_PROJECT_ID: ${{ inputs.curse-project-id }}"
+          echo "ZIP_FILE_NAME: $ZIP_FILE_NAME"
+          echo "DISPLAY_NAME: $DISPLAY_NAME"
+          echo "CHANGELOG: $CHANGELOG"
+          echo "CURSEFORGE_PROJECT_ID: $CURSEFORGE_PROJECT_ID"
