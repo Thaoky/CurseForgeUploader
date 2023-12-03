@@ -22,6 +22,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: curseforge-upload-params
+
+      - name: Debug Artifact Content
+        run: |
+          # Debug the content of the artifact file
+          echo "Artifact Content:"
+          cat my-artifact.txt
+          
       - shell: bash
         run: |
           # Read the content of the artifact file
@@ -29,6 +36,12 @@ jobs:
           
           # Split the content into an array based on the pipe character
           IFS='|' read -ra VARIABLES <<< "$ARTIFACT_CONTENT"
+
+          # Debug the content of the array
+          echo "Array Content:"
+          for var in "${VARIABLES[@]}"; do
+            echo "$var"
+          done
 
           ZIP_FILE_NAME="${VARIABLES[0]}"
           DISPLAY_NAME="${VARIABLES[1]}"
