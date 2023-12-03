@@ -42,12 +42,11 @@ jobs:
           for index in "${!VARIABLES[@]}"; do
             echo "[$index] ${VARIABLES[index]}"
           done
-
-          ZIP_FILE_NAME="${VARIABLES[0]}"
-          DISPLAY_NAME="${VARIABLES[1]}"
-          CURSEFORGE_PROJECT_ID="${VARIABLES[2]}"
-          CHANGELOG="See changelog.txt"
-
+          
+          echo "ZIP_FILE_NAME=${VARIABLES[0]}" >> $GITHUB_ENV
+          echo "DISPLAY_NAME=${VARIABLES[1]}" >> $GITHUB_ENV
+          echo "CURSEFORGE_PROJECT_ID=${VARIABLES[2]}" >> $GITHUB_ENV
+          echo "CHANGELOG=\"See changelog.txt\"" >> $GITHUB_ENV
 
       - name: Print Parameters
         run: |
