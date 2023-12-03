@@ -13,26 +13,15 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # specify the environment variables used by the packager, matching the secrets from the project on GitHub
-    env:
-      PROJECT_NAME: "LibMVC-1.0"
-      CURSEFORGE_API_TOKEN: ${{ secrets.CURSEFORGE_API_TOKEN }}
-      ZIP_FILE_NAME: ""
-
+    
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
-
-      - name: Upload to Curseforge API
+      - name: Print Parameters
         run: |
-          API_URL="https://wow.curseforge.com/api/projects/${{ vars.CURSEFORGE_PROJECT_ID }}/upload-file"
-          
-          curl -L -X POST \
-          -H "x-api-token: ${{ secrets.CURSEFORGE_API_TOKEN }}" \
-          -F "metadata={\"displayName\": \"$DISPLAY_NAME\", \"gameVersions\": [10215], \"releaseType\": \"release\", \"changelog\": \"First commit via GitHub\"}"  \
-          -F "file=@$ZIP_FILE_NAME" \
-          "$API_URL"
+          echo "ZIP_FILE_NAME: $ZIP_FILE_NAME"
+          echo "DISPLAY_NAME: $DISPLAY_NAME"
+          echo "CHANGELOG: $CHANGELOG"
+          echo "CURSEFORGE_PROJECT_ID: $CURSEFORGE_PROJECT_ID"
