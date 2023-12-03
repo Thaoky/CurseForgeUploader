@@ -1,4 +1,4 @@
-name: Curseforge Release
+name: Shared CF Upload
 
 on:
   workflow_call:
@@ -15,7 +15,6 @@ jobs:
 
     env:
       CURSEFORGE_API_TOKEN: ${{ secrets.CURSEFORGE_API_TOKEN }}
-      CURSEFORGE_PROD_API_TOKEN: ${{ secrets.CURSEFORGE_PROD_API_TOKEN }}
     
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -41,11 +40,6 @@ jobs:
           
       - shell: bash
         run: |
-          echo "T1: $CURSEFORGE_API_TOKEN"
-          echo "T2: $CURSEFORGE_PROD_API_TOKEN"
-          echo "T3: ${{ secrets.CURSEFORGE_API_TOKEN }}"
-          echo "T4: ${{ secrets.CURSEFORGE_PROD_API_TOKEN }}"
-        
           # Read the content of the artifact file
           ARTIFACT_CONTENT=$(cat curseforge-upload-params.txt)
           
@@ -70,12 +64,13 @@ jobs:
           echo "CHANGELOG: $CHANGELOG"
           echo "CURSEFORGE_PROJECT_ID: $CURSEFORGE_PROJECT_ID"
 
+      # NOTE : api token cannot be read.. go figure why.
       - name: Upload to Curseforge API
         run: |
           API_URL="https://wow.curseforge.com/api/projects/${{ env.CURSEFORGE_PROJECT_ID }}/upload-file"
           
           curl -L -X POST \
-          -H "x-api-token: ${{ secrets.CURSEFORGE_PROD_API_TOKEN }}" \
+          -H "x-api-token: ${{ secrets.CURSEFORGE_API_TOKEN }}" \
           -F "metadata={\"displayName\": \"$DISPLAY_NAME\", \"gameVersions\": [10215], \"releaseType\": \"release\", \"changelog\": \"$CHANGELOG\"}"  \
           -F "file=@$ZIP_FILE_NAME" \
           "$API_URL"
