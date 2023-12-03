@@ -39,8 +39,8 @@ jobs:
 
           # Debug the content of the array
           echo "Array Content:"
-          for var in "${VARIABLES[@]}"; do
-            echo "$var"
+          for index in "${!VARIABLES[@]}"; do
+            echo "[$index] ${VARIABLES[index]}"
           done
 
           ZIP_FILE_NAME="${VARIABLES[0]}"
