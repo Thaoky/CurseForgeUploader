@@ -35,8 +35,11 @@ jobs:
       - name: Debug Artifact Content
         run: |
           # Debug the content of the artifact file
-          echo "T1: ${{ secrets.CURSEFORGE_API_TOKEN }}"
-          echo "T2: ${{ secrets.CURSEFORGE_PROD_API_TOKEN }}"
+          echo "T1: $CURSEFORGE_API_TOKEN"
+          echo "T2: $CURSEFORGE_PROD_API_TOKEN"
+          echo "T3: ${{ secrets.CURSEFORGE_API_TOKEN }}"
+          echo "T4: ${{ secrets.CURSEFORGE_PROD_API_TOKEN }}"
+
           echo "Artifact Content:"
           cat curseforge-upload-params.txt
           
