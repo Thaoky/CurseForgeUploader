@@ -1,11 +1,23 @@
 name: Curseforge Release
 
 on:
-  push:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      zip-file-path:
+        required: true
+        type: string
+      addon-display-name:
+        required: true
+        type: string
+      change-log:
+        required: true
+        type: string
+      curse-project-id:
+        required: true
+        type: string
+    secrets:
+      envPAT:
+        required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -21,7 +33,7 @@ jobs:
 
       - name: Print Parameters
         run: |
-          echo "ZIP_FILE_NAME: $ZIP_FILE_NAME"
-          echo "DISPLAY_NAME: $DISPLAY_NAME"
-          echo "CHANGELOG: $CHANGELOG"
-          echo "CURSEFORGE_PROJECT_ID: $CURSEFORGE_PROJECT_ID"
+          echo "ZIP_FILE_NAME: ${{ inputs.zip-file-path }}"
+          echo "DISPLAY_NAME: ${{ inputs.addon-display-name }}"
+          echo "CHANGELOG: ${{ inputs.change-log }}"
+          echo "CURSEFORGE_PROJECT_ID: ${{ inputs.curse-project-id }}"
