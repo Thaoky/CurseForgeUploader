@@ -27,7 +27,7 @@ jobs:
         run: |
           # Debug the content of the artifact file
           echo "Artifact Content:"
-          cat my-artifact.txt
+          cat curseforge-upload-params.txt
           
       - shell: bash
         run: |
